@@ -4,7 +4,20 @@ from trajectory_calculator import hit_trajectory_calculator
 from trajectory_visualizer import create_stadium_trajectory_visualization
 
 def main():
-    st.title('Baseball Trajectory Calculator')
+    # Create two columns in the header: title and coffee button
+    col1, col2 = st.columns([4, 1])
+    
+    with col1:
+        st.title('Baseball Trajectory Calculator')
+    
+    with col2:
+        st.markdown('''
+            <a href="https://www.buymeacoffee.com/lokiville" target="_blank">
+                <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
+                     alt="Buy Me A Coffee" 
+                     style="height: 45px !important; width: 162px !important;">
+            </a>
+            ''', unsafe_allow_html=True)
     
     try:
         stadium_df = pd.read_excel("fence_data.xlsx")
