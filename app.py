@@ -15,20 +15,23 @@ def main():
 
     st.sidebar.header('Trajectory Parameters')
 
-    selected_stadium = st.sidebar.selectbox(
-        'Select Stadium',
-        available_stadiums,
-        index=0
-    )
+    selected_stadium = st.sidebar.selectbox('Select Stadium', available_stadiums, index=0)
 
-    # Input parameters
+    # Basic parameters
     exit_speed = st.sidebar.slider('Exit Speed (mph)', 60, 120, 95)
     launch_angle = st.sidebar.slider('Launch Angle (degrees)', 0, 50, 25)
     direction = st.sidebar.slider('Direction (degrees)', -45, 45, 0)
     batter_side = st.sidebar.radio('Batter Side', ['Left', 'Right'])
 
-    # Initial position
-    x0, y0, z0 = 0, 0, 0
+    # Starting position coordinates
+    st.sidebar.header('Starting Position')
+    col1, col2, col3 = st.sidebar.columns(3)
+    with col1:
+        x0 = st.number_input('X (ft)', -10, 10, 0)
+    with col2:
+        y0 = st.number_input('Y (ft)', -10, 10, 0)
+    with col3:
+        z0 = st.number_input('Z (ft)', 0, 5, 0)
 
     if st.sidebar.button('Calculate Trajectory'):
         try:
@@ -38,15 +41,13 @@ def main():
 
             if plot_buffer:
                 st.image(plot_buffer)
-
-                # Display key metrics
+                
                 col1, col2, col3 = st.columns(3)
-                col1.metric("Proj Distance", f"{distance:.1f} ft")
+                col1.metric("Distance", f"{distance:.1f} ft")
                 col2.metric("Exit Velocity", f"{exit_speed} mph")
                 col3.metric("Launch Angle", f"{launch_angle}°")
             else:
                 st.error("Failed to create visualization")
-
         except Exception as e:
             st.error(f"Error occurred: {str(e)}")
 
